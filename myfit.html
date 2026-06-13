@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="manifest" id="manifest-link">
+<title>Go Luke</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a;
+    --card: #161616;
+    --card2: #1c1c1c;
+    --accent: #e94560;
+    --accent2: #2a2a2a;
+    --green: #4ade80;
+    --yellow: #facc15;
+    --blue: #a0a0b0;
+    --text: #efefef;
+    --muted: #6b7280;
+    --border: #272727;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a1a1a, #111);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 16px 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.6);
+  }
+  .header h1 { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: var(--accent); }
+  .header p { font-size: 12px; opacity: 0.5; margin-top: 2px; }
+
+  /* FLOATING NAV */
+  .float-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 16px;
+    right: 16px;
+    background: rgba(22,22,22,0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    display: flex;
+    z-index: 200;
+    padding: 6px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  }
+  .tab {
+    flex: 1;
+    padding: 10px 4px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tab.active {
+    color: var(--accent);
+    background: rgba(233,69,96,0.12);
+  }
+  .tab span { display: block; font-size: 18px; margin-bottom: 2px; }
+
+  /* PAGES */
+  .page { display: none; padding: 12px; }
+  .page.active { display: block; }
+
+  /* SECTION CARD */
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 20px 0 10px;
+  }
+
+  /* DAY ACCORDION */
+  .day {
+    background: var(--card);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .day-header {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .day-header:active { background: rgba(255,255,255,0.05); }
+  .day-emoji { font-size: 22px; margin-right: 12px; }
+  .day-info { flex: 1; }
+  .day-name { font-size: 15px; font-weight: 700; }
+  .day-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .day-arrow {
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform 0.3s;
+  }
+  .day.open .day-arrow { transform: rotate(180deg); }
+  .day-body {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+  }
+  .day.open .day-body { display: block; }
+
+  /* MEAL / EXERCISE BLOCK */
+  .meal-block {
+    margin-top: 14px;
+  }
+  .meal-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .label-pranzo { background: rgba(160,160,176,0.12); color: var(--blue); }
+  .label-spuntino { background: rgba(250,204,21,0.12); color: var(--yellow); }
+  .label-cena { background: rgba(233,69,96,0.12); color: var(--accent); }
+  .label-warm { background: rgba(251,146,60,0.12); color: #fb923c; }
+  .label-stretch { background: rgba(167,139,250,0.12); color: #a78bfa; }
+  .label-workout { background: rgba(74,222,128,0.12); color: var(--green); }
+
+  .meal-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .meal-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* EXERCISE TABLE */
+  .ex-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .ex-table th {
+    font-size: 11px;
+    text-align: left;
+    color: var(--muted);
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .ex-table td {
+    font-size: 13px;
+    padding: 9px 8px;
+    border-bottom: 1px solid rgba(45,55,72,0.5);
+    vertical-align: middle;
+    line-height: 1.4;
+  }
+  .ex-table tr:last-child td { border-bottom: none; }
+  .ex-series {
+    white-space: nowrap;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 12px;
+  }
+
+  /* PROTEIN BADGE */
+  .protein-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.2);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-top: 14px;
+  }
+
+  /* INFO CARD */
+  .info-card {
+    background: var(--card2);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+  }
+  .info-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .info-card ul { padding-left: 18px; }
+  .info-card li {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .info-card p { font-size: 13px; line-height: 1.6; }
+
+  /* SCHEMA TABLE */
+  .schema-table { width: 100%; border-collapse: collapse; }
+  .schema-table th {
+    font-size: 11px;
+    text-align: left;
+    color: var(--muted);
+    padding: 8px;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .schema-table td {
+    font-size: 13px;
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(45,55,72,0.5);
+    line-height: 1.4;
+  }
+  .schema-table tr:last-child td { border-bottom: none; }
+  .badge-home {
+    background: rgba(96,165,250,0.15);
+    color: var(--blue);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .badge-out {
+    background: rgba(74,222,128,0.15);
+    color: var(--green);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+
+  /* WARM UP / STRETCH BLOCK */
+  .step-list { margin-top: 8px; }
+  .step-item {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(45,55,72,0.4);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-num {
+    min-width: 22px;
+    height: 22px;
+    background: #2a2a2a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #888;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+
+  /* ANIMAZIONE APERTURA SCHEDE */
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideUp {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-8px); }
+  }
+  .day-body {
+    animation: slideDown 0.25s ease;
+  }
+  .day-body.closing {
+    animation: slideUp 0.2s ease forwards;
+  }
+
+  /* ANIMAZIONE CAMBIO VARIANTE */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .variant {
+    animation: fadeIn 0.2s ease;
+  }
+
+  .tip-box {
+    background: rgba(250,204,21,0.08);
+    border: 1px solid rgba(250,204,21,0.2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--yellow);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* VARIANT TOGGLE */
+  .toggle-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    margin-top: 4px;
+  }
+  .toggle-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.2s;
+  }
+  .toggle-btn.active {
+    background: rgba(233,69,96,0.12);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* TIMER BTN in tabella */
+  .timer-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 14px;
+    padding: 4px 7px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+  }
+  .timer-btn:active { background: rgba(233,69,96,0.15); color: var(--accent); }
+
+  /* TIMER OVERLAY */
+  .timer-overlay {
+    display: none;
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    z-index: 300;
+  }
+  .timer-overlay.open { display: block; animation: slideDown 0.25s ease; }
+  .timer-modal {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 24px 24px;
+    padding: 20px;
+    box-shadow: 0 8px 16px -4px rgba(0,0,0,0.5);
+  }
+  .timer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .timer-label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .timer-close {
+    background: var(--card2);
+    border: none;
+    border-radius: 50%;
+    width: 28px; height: 28px;
+    color: var(--muted);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .timer-display {
+    text-align: center;
+    font-size: 56px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin: 8px 0 16px;
+    line-height: 1;
+  }
+  .timer-display.running { color: var(--accent); }
+  .timer-display.done { color: var(--green); }
+  .timer-controls {
+    display: flex;
+    gap: 10px;
+  }
+  .ctrl-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 14px;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+  }
+  .ctrl-start { background: var(--accent); color: #fff; }
+  .ctrl-reset { background: var(--card2); color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>GO LUKE</h1>
+  <p>Train hard. Eat right.</p>
+</div>
+
+<!-- TIMER OVERLAY -->
+<div class="timer-overlay" id="timerOverlay">
+  <div class="timer-modal">
+    <div class="timer-top">
+      <span class="timer-label" id="timerLabel">⏱ Recupero</span>
+      <button class="timer-close" onclick="closeTimer()">✕</button>
+    </div>
+    <div class="timer-display" id="timerDisplay">02:00</div>
+    <div class="timer-controls">
+      <button class="ctrl-btn ctrl-start" id="startBtn" onclick="toggleTimer()">⏸ Pausa</button>
+      <button class="ctrl-btn ctrl-reset" onclick="resetTimer()">↺ Ricomincia</button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING NAV -->
+<div class="float-nav">
+  <div class="tab active" onclick="switchPage('p1', this)"><span>🏠</span>Piano A</div>
+  <div class="tab" onclick="switchPage('p2', this)"><span>🌳</span>Piano B</div>
+  <div class="tab" onclick="switchPage('p3', this)"><span>🥗</span>Dieta</div>
+  <div class="tab" onclick="switchPage('p4', this)"><span>ℹ️</span>Info</div>
+</div>
+
+<!-- ===================== PIANO A ===================== -->
+<div class="page active" id="p1">
+
+  <div class="section-title">Piano A · 2 Casa + 1 Outdoor</div>
+
+  <div class="info-card">
+    <table class="schema-table">
+      <tr><th>Giorno</th><th>Dove</th><th>Focus</th></tr>
+      <tr><td><b>Giorno A</b><br><small>es. Lunedì</small></td><td><span class="badge-home">🏠 Casa</span></td><td>Spinta – petto, spalle, tricipiti</td></tr>
+      <tr><td><b>Giorno B</b><br><small>es. Mercoledì</small></td><td><span class="badge-out">🌳 Outdoor</span></td><td>Trazione + Gambe</td></tr>
+      <tr><td><b>Giorno C</b><br><small>es. Venerdì</small></td><td><span class="badge-home">🏠 Casa</span></td><td>Full body elastici + core</td></tr>
+    </table>
+  </div>
+
+  <!-- RISCALDAMENTO A -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🔥</div>
+      <div class="day-info">
+        <div class="day-name">Riscaldamento</div>
+        <div class="day-sub">10 min · scegli dove sei</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="toggle-row">
+        <button class="toggle-btn active" onclick="switchVariant(this,'wa1-casa')">🏠 Casa</button>
+        <button class="toggle-btn" onclick="switchVariant(this,'wa1-out')">🌳 Outdoor</button>
+      </div>
+      <div class="variant" id="wa1-casa">
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
+          <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
+          <div class="step-item"><div class="step-num">3</div><div>Cat-Cow (a 4 zampe) – 10 rip. lente, col respiro</div></div>
+          <div class="step-item"><div class="step-num">4</div><div>Thoracic rotation (a 4 zampe, mano dietro la testa) – 8 per lato</div></div>
+          <div class="step-item"><div class="step-num">5</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
+          <div class="step-item"><div class="step-num">6</div><div>Hip circles in piedi – 10 per lato</div></div>
+          <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+        </div>
+      </div>
+      <div class="variant" id="wa1-out" style="display:none">
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
+          <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
+          <div class="step-item"><div class="step-num">3</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
+          <div class="step-item"><div class="step-num">4</div><div>Rotazioni busto in piedi con braccia aperte – 10 per lato</div></div>
+          <div class="step-item"><div class="step-num">5</div><div>Hip circles in piedi – 10 per lato</div></div>
+          <div class="step-item"><div class="step-num">6</div><div>Affondi sul posto con torsione del busto – 5 per lato</div></div>
+          <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIORNO A -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🏠</div>
+      <div class="day-info">
+        <div class="day-name">Giorno A – Casa</div>
+        <div class="day-sub">Spinta · Petto, Spalle, Tricipiti</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-workout">💪 Esercizi</div>
+        <table class="ex-table">
+          <tr><th>Esercizio</th><th>Serie</th></tr>
+          <tr><td>Push-up con manubri (presa neutra, ROM ampio)</td><td class="ex-series">4×8-12</td></tr>
+          <tr><td>Floor press manubri (su pavimento)</td><td class="ex-series">4×8-10</td></tr>
+          <tr><td>Shoulder press manubri in piedi</td><td class="ex-series">3×10-12</td></tr>
+          <tr><td>Alzate laterali manubri</td><td class="ex-series">3×12-15</td></tr>
+          <tr><td>Dips tra due sedie</td><td class="ex-series">3×max</td></tr>
+          <tr><td>Estensione tricipiti sopra la testa (1 manubrio)</td><td class="ex-series">3×12</td></tr>
+          <tr><td>Push-up diamante</td><td class="ex-series">2×max</td></tr>
+        </table>
+        <div class="tip-box">🔧 Riposo 60-90 sec tra serie isolate, 2-3 min tra compound</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIORNO B OUTDOOR -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🌳</div>
+      <div class="day-info">
+        <div class="day-name">Giorno B – Outdoor</div>
+        <div class="day-sub">Trazione + Gambe · Schiena, Bicipiti, Gambe</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-workout">💪 Esercizi</div>
+        <table class="ex-table">
+          <tr><th>Esercizio</th><th>Serie</th></tr>
+          <tr><td>Pull-up presa larga</td><td class="ex-series">4×max</td></tr>
+          <tr><td>Chin-up presa supina stretta</td><td class="ex-series">3×max</td></tr>
+          <tr><td>Australian pull-up (sbarra bassa)</td><td class="ex-series">3×10-15</td></tr>
+          <tr><td>Dips alle parallele</td><td class="ex-series">4×max</td></tr>
+          <tr><td>Squat a corpo libero</td><td class="ex-series">3×15-20</td></tr>
+          <tr><td>Bulgarian split squat (piede su panchina)</td><td class="ex-series">3×10/lato</td></tr>
+          <tr><td>Affondi camminati</td><td class="ex-series">2×12/lato</td></tr>
+          <tr><td>Hollow body hold</td><td class="ex-series">3×20-30s</td></tr>
+        </table>
+        <div class="tip-box">💡 Se i pull-up sono pochi, usa un elastico come assistenza sotto il ginocchio</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIORNO C -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🏠</div>
+      <div class="day-info">
+        <div class="day-name">Giorno C – Casa</div>
+        <div class="day-sub">Full body elastici + Core</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-workout">💪 Esercizi</div>
+        <table class="ex-table">
+          <tr><th>Esercizio</th><th>Serie</th></tr>
+          <tr><td>Pull-up (sbarra porta)</td><td class="ex-series">4×max</td></tr>
+          <tr><td>Rematore con elastico (ancorato alla porta)</td><td class="ex-series">3×12-15</td></tr>
+          <tr><td>Curl bicipiti con elastico</td><td class="ex-series">3×12-15</td></tr>
+          <tr><td>Press orizzontale con elastico</td><td class="ex-series">3×12-15</td></tr>
+          <tr><td>Face pull con elastico</td><td class="ex-series">3×15</td></tr>
+          <tr><td>Squat con elastico sotto i piedi</td><td class="ex-series">3×15</td></tr>
+          <tr><td>Plank</td><td class="ex-series">3×30-45s</td></tr>
+          <tr><td>Dead bug</td><td class="ex-series">3×8/lato</td></tr>
+          <tr><td>Sollevamento gambe da sdraiato</td><td class="ex-series">3×12</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRETCHING A -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🧘</div>
+      <div class="day-info">
+        <div class="day-name">Stretching Finale</div>
+        <div class="day-sub">10 min · scegli dove sei · 30-40 sec per posizione</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="toggle-row">
+        <button class="toggle-btn active" onclick="switchVariant(this,'sa1-casa')">🏠 Casa</button>
+        <button class="toggle-btn" onclick="switchVariant(this,'sa1-out')">🌳 Outdoor</button>
+      </div>
+      <div class="variant" id="sa1-casa">
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla, lieve pressione con la mano</div></div>
+          <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio – mento verso petto, mani incrociate sulla nuca</div></div>
+          <div class="step-item"><div class="step-num">3</div><div>Child's pose – gambe aperte, braccia tese avanti</div></div>
+          <div class="step-item"><div class="step-num">4</div><div>Cat-Cow finale – 5 rip. lente</div></div>
+          <div class="step-item"><div class="step-num">5</div><div>Stiramento pettorali – braccio a 90° contro il muro, ruota il busto</div></div>
+          <div class="step-item"><div class="step-num">6</div><div>Stiramento toracico – mani intrecciate dietro la testa, apri il petto</div></div>
+          <div class="step-item"><div class="step-num">7</div><div>Rotazione toracica – seduto a gambe incrociate, ruota il busto con braccia aperte</div></div>
+          <div class="step-item"><div class="step-num">8</div><div>Stiramento ischio-crurali – seduto gambe tese, mani verso i piedi</div></div>
+          <div class="step-item"><div class="step-num">9</div><div>Piriforme stretch – sdraiato, caviglia sul ginocchio opposto, porta le gambe al petto</div></div>
+        </div>
+      </div>
+      <div class="variant" id="sa1-out" style="display:none">
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
+          <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio in piedi – mento verso petto, mani sulla nuca</div></div>
+          <div class="step-item"><div class="step-num">3</div><div>Stiramento pettorali – braccio a 90° contro un palo o muro, ruota il busto</div></div>
+          <div class="step-item"><div class="step-num">4</div><div>Stiramento toracico in piedi – mani intrecciate dietro la testa, apri il petto verso l'alto</div></div>
+          <div class="step-item"><div class="step-num">5</div><div>Rotazione busto in piedi – braccia aperte, 10 rotazioni lente per lato</div></div>
+          <div class="step-item"><div class="step-num">6</div><div>Stiramento ischio-crurali in piedi – piede su panchina o sbarra bassa, busto in avanti</div></div>
+          <div class="step-item"><div class="step-num">7</div><div>Piriforme stretch in piedi – figura 4 appoggiato a un palo, piega il ginocchio di supporto</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== PIANO B ===================== -->
+<div class="page" id="p2">
+
+  <div class="section-title">Piano B · 2 Outdoor + 1 Casa</div>
+
+  <div class="info-card">
+    <table class="schema-table">
+      <tr><th>Giorno</th><th>Dove</th><th>Focus</th></tr>
+      <tr><td><b>Giorno A</b><br><small>es. Lunedì</small></td><td><span class="badge-out">🌳 Outdoor</span></td><td>Trazione – Schiena, Bicipiti</td></tr>
+      <tr><td><b>Giorno B</b><br><small>es. Mercoledì</small></td><td><span class="badge-home">🏠 Casa</span></td><td>Spinta – Petto, Spalle, Tricipiti</td></tr>
+      <tr><td><b>Giorno C</b><br><small>es. Venerdì</small></td><td><span class="badge-out">🌳 Outdoor</span></td><td>Gambe + Core + Dips</td></tr>
+    </table>
+  </div>
+
+  <!-- RISCALDAMENTO B -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🔥</div>
+      <div class="day-info">
+        <div class="day-name">Riscaldamento</div>
+        <div class="day-sub">10 min · scegli dove sei</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="toggle-row">
+        <button class="toggle-btn active" onclick="switchVariant(this,'wb2-out')">🌳 Outdoor</button>
+        <button class="toggle-btn" onclick="switchVariant(this,'wb2-casa')">🏠 Casa</button>
+      </div>
+      <div class="variant" id="wb2-out">
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
+          <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
+          <div class="step-item"><div class="step-num">3</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
+          <div class="step-item"><div class="step-num">4</div><div>Rotazioni busto in piedi con braccia aperte – 10 per lato</div></div>
+          <div class="step-item"><div class="step-num">5</div><div>Hip circles in piedi – 10 per lato</div></div>
+          <div class="step-item"><div class="step-num">6</div><div>Affondi sul posto con torsione del busto – 5 per lato</div></div>
+          <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+        </div>
+      </div>
+      <div class="variant" id="wb2-casa" style="display:none">
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
+          <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
+          <div class="step-item"><div class="step-num">3</div><div>Cat-Cow (a 4 zampe) – 10 rip. lente, col respiro</div></div>
+          <div class="step-item"><div class="step-num">4</div><div>Thoracic rotation (a 4 zampe, mano dietro la testa) – 8 per lato</div></div>
+          <div class="step-item"><div class="step-num">5</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
+          <div class="step-item"><div class="step-num">6</div><div>Hip circles in piedi – 10 per lato</div></div>
+          <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIORNO A OUTDOOR TRAZIONE -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🌳</div>
+      <div class="day-info">
+        <div class="day-name">Giorno A – Outdoor</div>
+        <div class="day-sub">Trazione · Schiena, Bicipiti</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-workout">💪 Esercizi</div>
+        <table class="ex-table">
+          <tr><th>Esercizio</th><th>Serie</th></tr>
+          <tr><td>Pull-up presa larga</td><td class="ex-series">4×max</td></tr>
+          <tr><td>Chin-up presa supina stretta</td><td class="ex-series">3×max</td></tr>
+          <tr><td>Australian pull-up (sbarra bassa)</td><td class="ex-series">3×10-15</td></tr>
+          <tr><td>Rematore con elastico (ancorato)</td><td class="ex-series">3×12-15</td></tr>
+          <tr><td>Face pull con elastico</td><td class="ex-series">3×15</td></tr>
+          <tr><td>Curl bicipiti con elastico</td><td class="ex-series">3×12-15</td></tr>
+        </table>
+        <div class="tip-box">🎒 Porta con te: elastici</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIORNO B CASA SPINTA -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🏠</div>
+      <div class="day-info">
+        <div class="day-name">Giorno B – Casa</div>
+        <div class="day-sub">Spinta · Petto, Spalle, Tricipiti</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-workout">💪 Esercizi</div>
+        <table class="ex-table">
+          <tr><th>Esercizio</th><th>Serie</th></tr>
+          <tr><td>Floor press manubri</td><td class="ex-series">4×8-10</td></tr>
+          <tr><td>Push-up con manubri (presa neutra)</td><td class="ex-series">3×10-12</td></tr>
+          <tr><td>Shoulder press manubri in piedi</td><td class="ex-series">4×10-12</td></tr>
+          <tr><td>Alzate laterali manubri</td><td class="ex-series">3×12-15</td></tr>
+          <tr><td>Dips tra due sedie</td><td class="ex-series">3×max</td></tr>
+          <tr><td>Estensione tricipiti sopra la testa (1 manubrio)</td><td class="ex-series">3×12</td></tr>
+          <tr><td>Push-up diamante</td><td class="ex-series">2×max</td></tr>
+        </table>
+        <div class="tip-box">🔧 Il giorno più pesante coi manubri – tieni i pesi a casa</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIORNO C OUTDOOR GAMBE -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🌳</div>
+      <div class="day-info">
+        <div class="day-name">Giorno C – Outdoor</div>
+        <div class="day-sub">Gambe + Core + Dips</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-workout">💪 Esercizi</div>
+        <table class="ex-table">
+          <tr><th>Esercizio</th><th>Serie</th></tr>
+          <tr><td>Dips alle parallele</td><td class="ex-series">4×max</td></tr>
+          <tr><td>Squat a corpo libero</td><td class="ex-series">4×15-20</td></tr>
+          <tr><td>Bulgarian split squat (piede su panchina)</td><td class="ex-series">3×10/lato</td></tr>
+          <tr><td>Affondi camminati</td><td class="ex-series">3×12/lato</td></tr>
+          <tr><td>Squat con elastico sotto i piedi</td><td class="ex-series">3×15</td></tr>
+          <tr><td>Hollow body hold</td><td class="ex-series">3×20-30s</td></tr>
+          <tr><td>Dead bug (a terra)</td><td class="ex-series">3×8/lato</td></tr>
+          <tr><td>Plank laterale</td><td class="ex-series">2×20-30s/lato</td></tr>
+        </table>
+        <div class="tip-box">🎒 Porta con te: elastici</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRETCHING B -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">🧘</div>
+      <div class="day-info">
+        <div class="day-name">Stretching Finale</div>
+        <div class="day-sub">10 min · scegli dove sei · 30-40 sec per posizione</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="toggle-row">
+        <button class="toggle-btn active" onclick="switchVariant(this,'sb2-out')">🌳 Outdoor</button>
+        <button class="toggle-btn" onclick="switchVariant(this,'sb2-casa')">🏠 Casa</button>
+      </div>
+      <div class="variant" id="sb2-out">
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
+          <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio in piedi – mento verso petto, mani sulla nuca</div></div>
+          <div class="step-item"><div class="step-num">3</div><div>Stiramento pettorali – braccio a 90° contro un palo o muro, ruota il busto</div></div>
+          <div class="step-item"><div class="step-num">4</div><div>Stiramento toracico in piedi – mani intrecciate dietro la testa, apri il petto verso l'alto</div></div>
+          <div class="step-item"><div class="step-num">5</div><div>Rotazione busto in piedi – braccia aperte, 10 rotazioni lente per lato</div></div>
+          <div class="step-item"><div class="step-num">6</div><div>Stiramento ischio-crurali in piedi – piede su panchina o sbarra bassa, busto in avanti</div></div>
+          <div class="step-item"><div class="step-num">7</div><div>Piriforme stretch in piedi – figura 4 appoggiato a un palo, piega il ginocchio di supporto</div></div>
+        </div>
+      </div>
+      <div class="variant" id="sb2-casa" style="display:none">
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
+          <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio – mento verso petto, mani incrociate sulla nuca</div></div>
+          <div class="step-item"><div class="step-num">3</div><div>Child's pose – gambe aperte, braccia tese avanti</div></div>
+          <div class="step-item"><div class="step-num">4</div><div>Cat-Cow finale – 5 rip. lente</div></div>
+          <div class="step-item"><div class="step-num">5</div><div>Stiramento pettorali al muro – braccio a 90°, ruota il busto</div></div>
+          <div class="step-item"><div class="step-num">6</div><div>Stiramento toracico – mani dietro la testa, apri il petto</div></div>
+          <div class="step-item"><div class="step-num">7</div><div>Rotazione toracica – seduto a gambe incrociate, ruota il busto con braccia aperte</div></div>
+          <div class="step-item"><div class="step-num">8</div><div>Stiramento ischio-crurali – seduto gambe tese, mani verso i piedi</div></div>
+          <div class="step-item"><div class="step-num">9</div><div>Piriforme stretch – sdraiato, caviglia sul ginocchio opposto, porta le gambe al petto</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== DIETA ===================== -->
+<div class="page" id="p3">
+
+  <div class="section-title">Piano Alimentare Settimanale</div>
+
+  <div class="info-card">
+    <h3>📊 Obiettivo giornaliero</h3>
+    <table class="schema-table">
+      <tr><th>Momento</th><th>Pasto</th><th>Proteine</th></tr>
+      <tr><td>Mattina</td><td>Shake + 1 frutto</td><td style="color:var(--green);font-weight:700">~28g</td></tr>
+      <tr><td>Pranzo</td><td>Varia</td><td style="color:var(--green);font-weight:700">~35g</td></tr>
+      <tr><td>Spuntino</td><td>Zero prep · al lavoro</td><td style="color:var(--green);font-weight:700">~15g</td></tr>
+      <tr><td>Cena</td><td>Varia</td><td style="color:var(--green);font-weight:700">~40g</td></tr>
+      <tr><td><b>Totale</b></td><td></td><td style="color:var(--green);font-weight:700"><b>~118-125g</b></td></tr>
+    </table>
+  </div>
+
+  <!-- LUNEDÌ -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Lunedì</div>
+        <div class="day-sub">Pasta al tonno · Pollo e patate</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Pasta integrale (80g) con tonno al naturale (150g) e passata scaldata in padella con aglio e olio EVO.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Yogurt greco in vaschetta (150g) + bustina di noci o mandorle</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Petto di pollo alla piastra (180g) + patate al forno (200g) + zucchine grigliate. Condisci con olio EVO e spezie.</div>
+      </div>
+      <div class="protein-badge">💪 ~128g proteine</div>
+    </div>
+  </div>
+
+  <!-- MARTEDÌ -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Martedì</div>
+        <div class="day-sub">Riso e ceci · Salmone</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Riso (80g) con ceci in scatola (150g) saltati in padella con olio, aglio e paprika + spinaci freschi o surgelati.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Barretta proteica (20g+ proteine) + 1 banana</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Salmone al forno (180g) con limone e origano + broccoli al vapore o saltati + 2 fette pane integrale.</div>
+      </div>
+      <div class="protein-badge">💪 ~127g proteine</div>
+    </div>
+  </div>
+
+  <!-- MERCOLEDÌ -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Mercoledì</div>
+        <div class="day-sub">Pasta al ragù · Frittata</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Pasta (80g) al ragù veloce: macinato di manzo (120g) rosolato con passata di pomodoro, cipolla. Cuoce in 15 min.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Fiocchi di latte in vaschetta (150g) + 1 banana</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Frittata (3 uova) con peperoni e cipolla in padella + 2 fette pane integrale + insalata di carote con olio e limone.</div>
+      </div>
+      <div class="protein-badge">💪 ~122g proteine</div>
+    </div>
+  </div>
+
+  <!-- GIOVEDÌ -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Giovedì</div>
+        <div class="day-sub">Riso e pollo · Merluzzo</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Riso (80g) con pollo (120g) e zucchine a cubetti, tutto saltato in padella con olio e curry o spezie a piacere. Piatto unico.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Yogurt greco in vaschetta (150g) + 2 quadretti cioccolato fondente 85% + manciata di mandorle</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Merluzzo o pesce bianco al forno (200g) con patate (200g) e spinaci saltati + 1 fetta pane integrale.</div>
+      </div>
+      <div class="protein-badge">💪 ~126g proteine</div>
+    </div>
+  </div>
+
+  <!-- VENERDÌ -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Venerdì</div>
+        <div class="day-sub">Pasta al ragù · Pollo al forno</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Pasta (80g) con ragù avanzato dal mercoledì (o fresco, 120g macinato + passata). Aggiungi parmigiano.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Bresaola in bustina (80g) + crackers integrali + 1 mela</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Petto di pollo al forno (180g) con peperoni + riso (80g). Tutto in teglia insieme — facile e poca roba da lavare.</div>
+      </div>
+      <div class="protein-badge">💪 ~130g proteine</div>
+    </div>
+  </div>
+
+  <!-- SABATO -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Sabato</div>
+        <div class="day-sub">Burger di tacchino · Pizza libera 🍕</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Burger di tacchino fatto in casa (160g macinato + uovo + erbe) in padella + 2 fette pane integrale + insalata verde con carote e mais.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Fiocchi di latte in vaschetta (150g) + 1 frutto</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Pizza — preferisci topping proteici (prosciutto cotto, mozzarella) + insalata di contorno. Pasto libero, nessuna restrizione.</div>
+      </div>
+      <div class="protein-badge">💪 ~118g proteine</div>
+    </div>
+  </div>
+
+  <!-- DOMENICA -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Domenica</div>
+        <div class="day-sub">Pasta e fagioli · Bistecca</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Pasta e fagioli: pasta (70g) con fagioli borlotti in scatola (150g), passata, cipolla e rosmarino. Semplice ed economico.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Yogurt greco in vaschetta (150g) + bustina di frutta secca mista</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Bistecca o fettina di manzo (180g) alla piastra + patate al forno + zucchine. Pasto classico, zero complicazioni.</div>
+      </div>
+      <div class="protein-badge">💪 ~124g proteine</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== INFO ===================== -->
+<div class="page" id="p4">
+
+  <div class="section-title">Consigli Generali</div>
+
+  <div class="info-card">
+    <h3>💊 Micronutrienti coperti</h3>
+    <table class="schema-table">
+      <tr><th>Nutriente</th><th>Fonte principale</th></tr>
+      <tr><td>Vitamina C</td><td>Frutto mattutino, peperoni</td></tr>
+      <tr><td>Ferro</td><td>Carne, spinaci, fagioli</td></tr>
+      <tr><td>Calcio</td><td>Yogurt greco, fiocchi di latte</td></tr>
+      <tr><td>Omega-3</td><td>Salmone, noci</td></tr>
+      <tr><td>Fibre</td><td>Legumi, cereali integrali, verdure</td></tr>
+      <tr><td>Vitamina D</td><td>Salmone, uova</td></tr>
+      <tr><td>Zinco</td><td>Carne, legumi, frutta secca</td></tr>
+    </table>
+  </div>
+
+  <div class="info-card">
+    <h3>🍳 Meal prep smart</h3>
+    <ul>
+      <li>Fai il <b>ragù il mercoledì</b> in doppia dose — usalo anche il venerdì</li>
+      <li><b>Ceci e fagioli in scatola</b> → apri e scola, zero cottura</li>
+      <li><b>Verdure surgelate</b> (spinaci, broccoli) → pratiche quanto le fresche</li>
+      <li>Tieni sempre in borsa: <b>barretta proteica + bustina frutta secca</b></li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <h3>🏋️ Progressione allenamento</h3>
+    <ul>
+      <li>Quando raggiungi il <b>limite superiore delle rip.</b> con buona forma → aumenta peso o difficoltà</li>
+      <li>Se i pull-up sono pochi → usa <b>elastico come assistenza</b> sotto il ginocchio</li>
+      <li>Riposo tra serie: <b>60-90 sec</b> (isolati), <b>2-3 min</b> (compound)</li>
+    </ul>
+  </div>
+
+  <div class="info-card">
+    <h3>💧 Idratazione</h3>
+    <p>Almeno <b>2-2.5 litri d'acqua</b> al giorno, di più nei giorni di allenamento.</p>
+  </div>
+
+  <div class="info-card">
+    <h3>🧠 Regola d'oro</h3>
+    <p>Se un giorno vai fuori piano, <b>non recuperare tagliando le porzioni il giorno dopo</b>. Torna semplicemente al piano normale — un pasto libero non cambia nulla sul lungo periodo.</p>
+  </div>
+
+  <div class="info-card">
+    <h3>⚠️ Dolori a collo e schiena</h3>
+    <p>Il riscaldamento e lo stretching sono fondamentali, non saltarli. Se i dolori persistono <b>durante</b> l'esercizio (non solo dopo come DOMS), consulta un fisioterapista.</p>
+  </div>
+
+  <div class="section-title" style="margin-top:20px">Configurazione manubri</div>
+  <div class="info-card">
+    <h3>🔧 Peso suggerito per esercizio</h3>
+    <table class="schema-table">
+      <tr><th>Esercizio</th><th>Peso</th></tr>
+      <tr><td>Alzate laterali</td><td>4-6 kg</td></tr>
+      <tr><td>Curl bicipiti</td><td>6-8 kg</td></tr>
+      <tr><td>Floor press</td><td>8-10 kg</td></tr>
+      <tr><td>Shoulder press</td><td>6-8 kg</td></tr>
+      <tr><td>Estensioni tricipiti</td><td>6-8 kg (1 manubrio)</td></tr>
+    </table>
+    <div class="tip-box">Aumenta +0.5-1 kg quando completi tutte le serie previste</div>
+  </div>
+
+</div>
+
+
+<script>
+  // ── TIMER ──────────────────────────────────────────────
+  let timerSeconds = 90, timerRemaining = 90, timerInterval = null;
+
+  // Mappa keyword → secondi di recupero
+  function getRestTime(name) {
+    const n = name.toLowerCase();
+    // Compound pesanti: 3 min
+    if (/pull-up presa larga|squat a corpo|floor press|dips alle parallele|bulgarian/.test(n)) return 180;
+    // Compound medi: 2 min
+    if (/chin-up|australian|shoulder press|push-up con manubri|rematore|affondi|squat con elastico|press orizzontale|burger/.test(n)) return 120;
+    // Tutto il resto (isolamento): 60s
+    return 60;
+  }
+
+  function restLabel(s) {
+    if (s >= 60) return s/60 === Math.floor(s/60) ? `${s/60} min` : `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+    return `${s}s`;
+  }
+
+  function openTimer(seconds, exerciseName) {
+    clearInterval(timerInterval); timerInterval = null;
+    timerSeconds = timerRemaining = seconds;
+    document.getElementById('timerLabel').textContent = `⏱ Recupero · ${restLabel(seconds)}`;
+    const d = document.getElementById('timerDisplay');
+    d.classList.remove('running','done');
+    document.getElementById('startBtn').textContent = '⏸ Pausa';
+    document.getElementById('timerOverlay').classList.add('open');
+    updateDisplay();
+    // Parte subito
+    d.classList.add('running');
+    timerInterval = setInterval(() => {
+      timerRemaining--;
+      updateDisplay();
+      if (timerRemaining <= 0) {
+        clearInterval(timerInterval); timerInterval = null;
+        d.classList.remove('running'); d.classList.add('done');
+        document.getElementById('startBtn').textContent = '▶ Ricomincia';
+        if ('vibrate' in navigator) navigator.vibrate([300,100,300]);
+      }
+    }, 1000);
+  }
+
+  function closeTimer() {
+    clearInterval(timerInterval); timerInterval = null;
+    document.getElementById('timerOverlay').classList.remove('open');
+    document.getElementById('timerDisplay').classList.remove('running','done');
+  }
+
+  function updateDisplay() {
+    const m = Math.floor(timerRemaining / 60);
+    const s = timerRemaining % 60;
+    document.getElementById('timerDisplay').textContent =
+      String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  }
+
+  function toggleTimer() {
+    const btn = document.getElementById('startBtn');
+    const d = document.getElementById('timerDisplay');
+    if (timerInterval) {
+      clearInterval(timerInterval); timerInterval = null;
+      btn.textContent = '▶ Riprendi'; d.classList.remove('running');
+    } else {
+      if (timerRemaining <= 0) { timerRemaining = timerSeconds; d.classList.remove('done'); }
+      d.classList.add('running'); btn.textContent = '⏸ Pausa';
+      timerInterval = setInterval(() => {
+        timerRemaining--;
+        updateDisplay();
+        if (timerRemaining <= 0) {
+          clearInterval(timerInterval); timerInterval = null;
+          d.classList.remove('running'); d.classList.add('done');
+          btn.textContent = '▶ Ricomincia';
+          if ('vibrate' in navigator) navigator.vibrate([300,100,300]);
+        }
+      }, 1000);
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval); timerInterval = null;
+    timerRemaining = timerSeconds;
+    const d = document.getElementById('timerDisplay');
+    d.classList.remove('running','done');
+    document.getElementById('startBtn').textContent = '⏸ Pausa';
+    updateDisplay();
+    // Riparte subito
+    d.classList.add('running');
+    timerInterval = setInterval(() => {
+      timerRemaining--;
+      updateDisplay();
+      if (timerRemaining <= 0) {
+        clearInterval(timerInterval); timerInterval = null;
+        d.classList.remove('running'); d.classList.add('done');
+        document.getElementById('startBtn').textContent = '▶ Ricomincia';
+        if ('vibrate' in navigator) navigator.vibrate([300,100,300]);
+      }
+    }, 1000);
+  }
+
+  // Inietta colonna ⏱ con tempo pre-assegnato per ogni esercizio
+  document.querySelectorAll('.ex-table').forEach(t => {
+    t.querySelectorAll('tr').forEach((row, i) => {
+      const cell = document.createElement(i === 0 ? 'th' : 'td');
+      if (i > 0) {
+        const exName = row.cells[0] ? row.cells[0].textContent : '';
+        const secs = getRestTime(exName);
+        cell.innerHTML = `<button class="timer-btn" onclick="openTimer(${secs}, '${exName.replace(/'/g,"\\'")}')">⏱</button>`;
+      }
+      cell.style.width = '36px';
+      row.appendChild(cell);
+    });
+  });
+  // ───────────────────────────────────────────────────────
+
+  function switchPage(id, tabEl, navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+
+    const idx = ['p1','p2','p3','p4'].indexOf(id);
+    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i === idx));
+
+    window.scrollTo(0, 0);
+  }
+
+  function toggleDay(header) {
+    const day = header.parentElement;
+    const body = day.querySelector('.day-body');
+    if (day.classList.contains('open')) {
+      body.classList.add('closing');
+      body.addEventListener('animationend', () => {
+        body.classList.remove('closing');
+        day.classList.remove('open');
+      }, { once: true });
+    } else {
+      day.classList.add('open');
+    }
+  }
+
+  // PWA icon + manifest generati dinamicamente
+  (function() {
+    const size = 512;
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d');
+
+    // Sfondo scuro arrotondato
+    const r = size * 0.18;
+    ctx.beginPath();
+    ctx.moveTo(r, 0); ctx.lineTo(size - r, 0);
+    ctx.quadraticCurveTo(size, 0, size, r);
+    ctx.lineTo(size, size - r);
+    ctx.quadraticCurveTo(size, size, size - r, size);
+    ctx.lineTo(r, size);
+    ctx.quadraticCurveTo(0, size, 0, size - r);
+    ctx.lineTo(0, r);
+    ctx.quadraticCurveTo(0, 0, r, 0);
+    ctx.closePath();
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fill();
+
+    // Disegna manubrio
+    const cx = size / 2, cy = size / 2;
+    const barH = size * 0.09, barW = size * 0.38;
+    const plateW = size * 0.10, plateH = size * 0.30;
+    const capW = size * 0.08, capH = size * 0.42;
+    const accent = '#e94560';
+    const bar = '#c0c0d0';
+
+    // Barra centrale
+    ctx.fillStyle = bar;
+    ctx.beginPath();
+    ctx.roundRect(cx - barW, cy - barH/2, barW*2, barH, 6);
+    ctx.fill();
+
+    // Funzione per disegnare metà manubrio
+    function drawSide(x) {
+      // Piatto interno
+      ctx.fillStyle = accent;
+      ctx.beginPath();
+      ctx.roundRect(x - plateW/2, cy - plateH/2, plateW, plateH, 5);
+      ctx.fill();
+      // Cappuccio esterno
+      ctx.fillStyle = '#b03040';
+      ctx.beginPath();
+      ctx.roundRect(x - capW/2, cy - capH/2, capW, capH, 7);
+      ctx.fill();
+    }
+
+    drawSide(cx - barW - plateW * 0.5);
+    drawSide(cx + barW + plateW * 0.5);
+
+    const iconDataUrl = c.toDataURL('image/png');
+
+    // Imposta favicon
+    const favicon = document.createElement('link');
+    favicon.rel = 'icon'; favicon.type = 'image/png'; favicon.href = iconDataUrl;
+    document.head.appendChild(favicon);
+    const touchIcon = document.createElement('link');
+    touchIcon.rel = 'apple-touch-icon'; touchIcon.href = iconDataUrl;
+    document.head.appendChild(touchIcon);
+
+    // Crea manifest
+    const manifest = {
+      name: 'MyFit',
+      short_name: 'MyFit',
+      description: 'Piano allenamento e alimentazione',
+      start_url: '.',
+      display: 'standalone',
+      orientation: 'portrait',
+      theme_color: '#1a1a2e',
+      background_color: '#0f0f1a',
+      icons: [
+        { src: iconDataUrl, sizes: '192x192', type: 'image/png' },
+        { src: iconDataUrl, sizes: '512x512', type: 'image/png' }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+    document.getElementById('manifest-link').href = URL.createObjectURL(blob);
+  })();
+
+  function switchVariant(btn, id) {
+    const body = btn.closest('.day-body');
+    body.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    body.querySelectorAll('.variant').forEach(v => v.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+  }
+</script>
+</body>
+</html>
