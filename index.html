@@ -465,382 +465,545 @@
 
 <!-- FLOATING NAV -->
 <div class="float-nav">
-  <div class="tab active" onclick="switchPage('p1', this)"><span>🏠</span>Piano A</div>
-  <div class="tab" onclick="switchPage('p2', this)"><span>🌳</span>Piano B</div>
-  <div class="tab" onclick="switchPage('p3', this)"><span>🥗</span>Dieta</div>
-  <div class="tab" onclick="switchPage('p4', this)"><span>ℹ️</span>Info</div>
+  <div class="tab active" onclick="switchPage('p1', this)"><span>🌳</span>Workout</div>
+  <div class="tab" onclick="switchPage('p2', this)"><span>🥗</span>Dieta</div>
+  <div class="tab" onclick="switchPage('p3', this)"><span>ℹ️</span>Info</div>
 </div>
 
-<!-- ===================== PIANO A ===================== -->
+<!-- ===================== WORKOUT ===================== -->
 <div class="page active" id="p1">
 
-  <div class="section-title">Piano A · 2 Casa + 1 Outdoor</div>
+  <div class="section-title">Workout</div>
 
-  <div class="info-card">
-    <table class="schema-table">
-      <tr><th>Giorno</th><th>Dove</th><th>Focus</th></tr>
-      <tr><td><b>Giorno A</b><br><small>es. Lunedì</small></td><td><span class="badge-home">🏠 Casa</span></td><td>Spinta – petto, spalle, tricipiti</td></tr>
-      <tr><td><b>Giorno B</b><br><small>es. Mercoledì</small></td><td><span class="badge-out">🌳 Outdoor</span></td><td>Trazione + Gambe</td></tr>
-      <tr><td><b>Giorno C</b><br><small>es. Venerdì</small></td><td><span class="badge-home">🏠 Casa</span></td><td>Full body elastici + core</td></tr>
-    </table>
+  <div class="toggle-bar" style="margin-bottom:16px;">
+    <button class="toggle-btn active" id="btn-calisthenics" onclick="switchPlan('calisthenics')">🌳 Calisthenics</button>
+    <button class="toggle-btn" id="btn-piano-a" onclick="switchPlan('piano-a')">Piano A</button>
+    <button class="toggle-btn" id="btn-piano-b" onclick="switchPlan('piano-b')">Piano B</button>
   </div>
 
-  <!-- RISCALDAMENTO A -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🔥</div>
-      <div class="day-info">
-        <div class="day-name">Riscaldamento</div>
-        <div class="day-sub">10 min · scegli dove sei</div>
-      </div>
-      <div class="day-arrow">▼</div>
+  <!-- ===== PIANO CALISTHENICS ===== -->
+  <div id="plan-calisthenics">
+
+    <div class="info-card">
+      <table class="schema-table">
+        <tr><th>Giorno</th><th>Focus</th></tr>
+        <tr><td><b>Giorno A</b><br><small>es. Lunedì</small></td><td>Spinta – Push-up variations + dips + pike push-up</td></tr>
+        <tr><td><b>Giorno B</b><br><small>es. Mercoledì</small></td><td>Trazione – Pull-up + chin-up + australian + band rows</td></tr>
+        <tr><td><b>Giorno C</b><br><small>es. Venerdì</small></td><td>Gambe + Core – Squat, affondi, Bulgarian, core</td></tr>
+      </table>
     </div>
-    <div class="day-body">
-      <div class="toggle-row">
-        <button class="toggle-btn active" onclick="switchVariant(this,'wa1-casa')">🏠 Casa</button>
-        <button class="toggle-btn" onclick="switchVariant(this,'wa1-out')">🌳 Outdoor</button>
-      </div>
-      <div class="variant" id="wa1-casa">
-        <div class="step-list">
-          <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
-          <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
-          <div class="step-item"><div class="step-num">3</div><div>Cat-Cow (a 4 zampe) – 10 rip. lente, col respiro</div></div>
-          <div class="step-item"><div class="step-num">4</div><div>Thoracic rotation (a 4 zampe, mano dietro la testa) – 8 per lato</div></div>
-          <div class="step-item"><div class="step-num">5</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
-          <div class="step-item"><div class="step-num">6</div><div>Hip circles in piedi – 10 per lato</div></div>
-          <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+
+    <!-- RISCALDAMENTO CALISTHENICS -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🔥</div>
+        <div class="day-info">
+          <div class="day-name">Riscaldamento</div>
+          <div class="day-sub">10 min · tutto outdoor · in piedi</div>
         </div>
+        <div class="day-arrow">▼</div>
       </div>
-      <div class="variant" id="wa1-out" style="display:none">
-        <div class="step-list">
-          <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
-          <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
-          <div class="step-item"><div class="step-num">3</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
-          <div class="step-item"><div class="step-num">4</div><div>Rotazioni busto in piedi con braccia aperte – 10 per lato</div></div>
-          <div class="step-item"><div class="step-num">5</div><div>Hip circles in piedi – 10 per lato</div></div>
-          <div class="step-item"><div class="step-num">6</div><div>Affondi sul posto con torsione del busto – 5 per lato</div></div>
-          <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-warm">🔥 Warm-up Outdoor</div>
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Rotazioni busto in piedi con braccia aperte – 10 per lato</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Hip circles in piedi – 10 per lato</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Affondi sul posto con torsione del busto – 5 per lato</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- GIORNO A -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🏠</div>
-      <div class="day-info">
-        <div class="day-name">Giorno A – Casa</div>
-        <div class="day-sub">Spinta · Petto, Spalle, Tricipiti</div>
-      </div>
-      <div class="day-arrow">▼</div>
-    </div>
-    <div class="day-body">
-      <div class="meal-block">
-        <div class="meal-label label-workout">💪 Esercizi</div>
-        <table class="ex-table">
-          <tr><th>Esercizio</th><th>Serie</th></tr>
-          <tr><td>Push-up con manubri (presa neutra, ROM ampio)</td><td class="ex-series">4×8-12</td></tr>
-          <tr><td>Floor press manubri (su pavimento)</td><td class="ex-series">4×8-10</td></tr>
-          <tr><td>Shoulder press manubri in piedi</td><td class="ex-series">3×10-12</td></tr>
-          <tr><td>Alzate laterali manubri</td><td class="ex-series">3×12-15</td></tr>
-          <tr><td>Dips tra due sedie</td><td class="ex-series">3×max</td></tr>
-          <tr><td>Estensione tricipiti sopra la testa (1 manubrio)</td><td class="ex-series">3×12</td></tr>
-          <tr><td>Push-up diamante</td><td class="ex-series">2×max</td></tr>
-        </table>
-        <div class="tip-box">🔧 Riposo 60-90 sec tra serie isolate, 2-3 min tra compound</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- GIORNO B OUTDOOR -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🌳</div>
-      <div class="day-info">
-        <div class="day-name">Giorno B – Outdoor</div>
-        <div class="day-sub">Trazione + Gambe · Schiena, Bicipiti, Gambe</div>
-      </div>
-      <div class="day-arrow">▼</div>
-    </div>
-    <div class="day-body">
-      <div class="meal-block">
-        <div class="meal-label label-workout">💪 Esercizi</div>
-        <table class="ex-table">
-          <tr><th>Esercizio</th><th>Serie</th></tr>
-          <tr><td>Pull-up presa larga</td><td class="ex-series">4×max</td></tr>
-          <tr><td>Chin-up presa supina stretta</td><td class="ex-series">3×max</td></tr>
-          <tr><td>Australian pull-up (sbarra bassa)</td><td class="ex-series">3×10-15</td></tr>
-          <tr><td>Dips alle parallele</td><td class="ex-series">4×max</td></tr>
-          <tr><td>Squat a corpo libero</td><td class="ex-series">3×15-20</td></tr>
-          <tr><td>Bulgarian split squat (piede su panchina)</td><td class="ex-series">3×10/lato</td></tr>
-          <tr><td>Affondi camminati</td><td class="ex-series">2×12/lato</td></tr>
-          <tr><td>Hollow body hold</td><td class="ex-series">3×20-30s</td></tr>
-        </table>
-        <div class="tip-box">💡 Se i pull-up sono pochi, usa un elastico come assistenza sotto il ginocchio</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- GIORNO C -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🏠</div>
-      <div class="day-info">
-        <div class="day-name">Giorno C – Casa</div>
-        <div class="day-sub">Full body elastici + Core</div>
-      </div>
-      <div class="day-arrow">▼</div>
-    </div>
-    <div class="day-body">
-      <div class="meal-block">
-        <div class="meal-label label-workout">💪 Esercizi</div>
-        <table class="ex-table">
-          <tr><th>Esercizio</th><th>Serie</th></tr>
-          <tr><td>Pull-up (sbarra porta)</td><td class="ex-series">4×max</td></tr>
-          <tr><td>Rematore con elastico (ancorato alla porta)</td><td class="ex-series">3×12-15</td></tr>
-          <tr><td>Curl bicipiti con elastico</td><td class="ex-series">3×12-15</td></tr>
-          <tr><td>Press orizzontale con elastico</td><td class="ex-series">3×12-15</td></tr>
-          <tr><td>Face pull con elastico</td><td class="ex-series">3×15</td></tr>
-          <tr><td>Squat con elastico sotto i piedi</td><td class="ex-series">3×15</td></tr>
-          <tr><td>Plank</td><td class="ex-series">3×30-45s</td></tr>
-          <tr><td>Dead bug</td><td class="ex-series">3×8/lato</td></tr>
-          <tr><td>Sollevamento gambe da sdraiato</td><td class="ex-series">3×12</td></tr>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- STRETCHING A -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🧘</div>
-      <div class="day-info">
-        <div class="day-name">Stretching Finale</div>
-        <div class="day-sub">10 min · scegli dove sei · 30-40 sec per posizione</div>
-      </div>
-      <div class="day-arrow">▼</div>
-    </div>
-    <div class="day-body">
-      <div class="toggle-row">
-        <button class="toggle-btn active" onclick="switchVariant(this,'sa1-casa')">🏠 Casa</button>
-        <button class="toggle-btn" onclick="switchVariant(this,'sa1-out')">🌳 Outdoor</button>
-      </div>
-      <div class="variant" id="sa1-casa">
-        <div class="step-list">
-          <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla, lieve pressione con la mano</div></div>
-          <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio – mento verso petto, mani incrociate sulla nuca</div></div>
-          <div class="step-item"><div class="step-num">3</div><div>Child's pose – gambe aperte, braccia tese avanti</div></div>
-          <div class="step-item"><div class="step-num">4</div><div>Cat-Cow finale – 5 rip. lente</div></div>
-          <div class="step-item"><div class="step-num">5</div><div>Stiramento pettorali – braccio a 90° contro il muro, ruota il busto</div></div>
-          <div class="step-item"><div class="step-num">6</div><div>Stiramento toracico – mani intrecciate dietro la testa, apri il petto</div></div>
-          <div class="step-item"><div class="step-num">7</div><div>Rotazione toracica – seduto a gambe incrociate, ruota il busto con braccia aperte</div></div>
-          <div class="step-item"><div class="step-num">8</div><div>Stiramento ischio-crurali – seduto gambe tese, mani verso i piedi</div></div>
-          <div class="step-item"><div class="step-num">9</div><div>Piriforme stretch – sdraiato, caviglia sul ginocchio opposto, porta le gambe al petto</div></div>
+    <!-- GIORNO A CALISTHENICS -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🌳</div>
+        <div class="day-info">
+          <div class="day-name">Giorno A – Outdoor</div>
+          <div class="day-sub">Spinta · Petto, Spalle, Tricipiti</div>
         </div>
+        <div class="day-arrow">▼</div>
       </div>
-      <div class="variant" id="sa1-out" style="display:none">
-        <div class="step-list">
-          <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
-          <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio in piedi – mento verso petto, mani sulla nuca</div></div>
-          <div class="step-item"><div class="step-num">3</div><div>Stiramento pettorali – braccio a 90° contro un palo o muro, ruota il busto</div></div>
-          <div class="step-item"><div class="step-num">4</div><div>Stiramento toracico in piedi – mani intrecciate dietro la testa, apri il petto verso l'alto</div></div>
-          <div class="step-item"><div class="step-num">5</div><div>Rotazione busto in piedi – braccia aperte, 10 rotazioni lente per lato</div></div>
-          <div class="step-item"><div class="step-num">6</div><div>Stiramento ischio-crurali in piedi – piede su panchina o sbarra bassa, busto in avanti</div></div>
-          <div class="step-item"><div class="step-num">7</div><div>Piriforme stretch in piedi – figura 4 appoggiato a un palo, piega il ginocchio di supporto</div></div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-workout">💪 Esercizi</div>
+          <table class="ex-table">
+            <tr><th>Esercizio</th><th>Serie x Rip.</th></tr>
+            <tr><td>Dips alle parallele</td><td class="ex-series">4×max</td></tr>
+            <tr><td>Push-up classico (ROM completo)</td><td class="ex-series">4×max</td></tr>
+            <tr><td>Pike push-up (spalle)</td><td class="ex-series">3×8-12</td></tr>
+            <tr><td>Push-up con piedi elevati su panchina</td><td class="ex-series">3×10-12</td></tr>
+            <tr><td>Chest press con elastico (ancorato)</td><td class="ex-series">3×12-15</td></tr>
+            <tr><td>Tricipiti push-down con elastico</td><td class="ex-series">3×15</td></tr>
+            <tr><td>Push-up diamante</td><td class="ex-series">2×max</td></tr>
+          </table>
+          <div class="tip-box">🎒 Porta con te: elastici · tutto outdoor</div>
         </div>
       </div>
     </div>
-  </div>
 
-</div>
-
-<!-- ===================== PIANO B ===================== -->
-<div class="page" id="p2">
-
-  <div class="section-title">Piano B · 2 Outdoor + 1 Casa</div>
-
-  <div class="info-card">
-    <table class="schema-table">
-      <tr><th>Giorno</th><th>Dove</th><th>Focus</th></tr>
-      <tr><td><b>Giorno A</b><br><small>es. Lunedì</small></td><td><span class="badge-out">🌳 Outdoor</span></td><td>Trazione – Schiena, Bicipiti</td></tr>
-      <tr><td><b>Giorno B</b><br><small>es. Mercoledì</small></td><td><span class="badge-home">🏠 Casa</span></td><td>Spinta – Petto, Spalle, Tricipiti</td></tr>
-      <tr><td><b>Giorno C</b><br><small>es. Venerdì</small></td><td><span class="badge-out">🌳 Outdoor</span></td><td>Gambe + Core + Dips</td></tr>
-    </table>
-  </div>
-
-  <!-- RISCALDAMENTO B -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🔥</div>
-      <div class="day-info">
-        <div class="day-name">Riscaldamento</div>
-        <div class="day-sub">10 min · scegli dove sei</div>
-      </div>
-      <div class="day-arrow">▼</div>
-    </div>
-    <div class="day-body">
-      <div class="toggle-row">
-        <button class="toggle-btn active" onclick="switchVariant(this,'wb2-out')">🌳 Outdoor</button>
-        <button class="toggle-btn" onclick="switchVariant(this,'wb2-casa')">🏠 Casa</button>
-      </div>
-      <div class="variant" id="wb2-out">
-        <div class="step-list">
-          <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
-          <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
-          <div class="step-item"><div class="step-num">3</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
-          <div class="step-item"><div class="step-num">4</div><div>Rotazioni busto in piedi con braccia aperte – 10 per lato</div></div>
-          <div class="step-item"><div class="step-num">5</div><div>Hip circles in piedi – 10 per lato</div></div>
-          <div class="step-item"><div class="step-num">6</div><div>Affondi sul posto con torsione del busto – 5 per lato</div></div>
-          <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+    <!-- GIORNO B CALISTHENICS -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🌳</div>
+        <div class="day-info">
+          <div class="day-name">Giorno B – Outdoor</div>
+          <div class="day-sub">Trazione · Schiena, Bicipiti</div>
         </div>
+        <div class="day-arrow">▼</div>
       </div>
-      <div class="variant" id="wb2-casa" style="display:none">
-        <div class="step-list">
-          <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
-          <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
-          <div class="step-item"><div class="step-num">3</div><div>Cat-Cow (a 4 zampe) – 10 rip. lente, col respiro</div></div>
-          <div class="step-item"><div class="step-num">4</div><div>Thoracic rotation (a 4 zampe, mano dietro la testa) – 8 per lato</div></div>
-          <div class="step-item"><div class="step-num">5</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
-          <div class="step-item"><div class="step-num">6</div><div>Hip circles in piedi – 10 per lato</div></div>
-          <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-workout">💪 Esercizi</div>
+          <table class="ex-table">
+            <tr><th>Esercizio</th><th>Serie x Rip.</th></tr>
+            <tr><td>Pull-up presa larga</td><td class="ex-series">4×max</td></tr>
+            <tr><td>Chin-up presa supina</td><td class="ex-series">3×max</td></tr>
+            <tr><td>Australian pull-up (sbarra bassa)</td><td class="ex-series">4×10-15</td></tr>
+            <tr><td>Rematore con elastico (ancorato)</td><td class="ex-series">3×12-15</td></tr>
+            <tr><td>Face pull con elastico</td><td class="ex-series">3×15</td></tr>
+            <tr><td>Curl bicipiti con elastico</td><td class="ex-series">3×12-15</td></tr>
+          </table>
+          <div class="tip-box">🎒 Porta con te: elastici · sbarra outdoor</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- GIORNO A OUTDOOR TRAZIONE -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🌳</div>
-      <div class="day-info">
-        <div class="day-name">Giorno A – Outdoor</div>
-        <div class="day-sub">Trazione · Schiena, Bicipiti</div>
-      </div>
-      <div class="day-arrow">▼</div>
-    </div>
-    <div class="day-body">
-      <div class="meal-block">
-        <div class="meal-label label-workout">💪 Esercizi</div>
-        <table class="ex-table">
-          <tr><th>Esercizio</th><th>Serie</th></tr>
-          <tr><td>Pull-up presa larga</td><td class="ex-series">4×max</td></tr>
-          <tr><td>Chin-up presa supina stretta</td><td class="ex-series">3×max</td></tr>
-          <tr><td>Australian pull-up (sbarra bassa)</td><td class="ex-series">3×10-15</td></tr>
-          <tr><td>Rematore con elastico (ancorato)</td><td class="ex-series">3×12-15</td></tr>
-          <tr><td>Face pull con elastico</td><td class="ex-series">3×15</td></tr>
-          <tr><td>Curl bicipiti con elastico</td><td class="ex-series">3×12-15</td></tr>
-        </table>
-        <div class="tip-box">🎒 Porta con te: elastici</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- GIORNO B CASA SPINTA -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🏠</div>
-      <div class="day-info">
-        <div class="day-name">Giorno B – Casa</div>
-        <div class="day-sub">Spinta · Petto, Spalle, Tricipiti</div>
-      </div>
-      <div class="day-arrow">▼</div>
-    </div>
-    <div class="day-body">
-      <div class="meal-block">
-        <div class="meal-label label-workout">💪 Esercizi</div>
-        <table class="ex-table">
-          <tr><th>Esercizio</th><th>Serie</th></tr>
-          <tr><td>Floor press manubri</td><td class="ex-series">4×8-10</td></tr>
-          <tr><td>Push-up con manubri (presa neutra)</td><td class="ex-series">3×10-12</td></tr>
-          <tr><td>Shoulder press manubri in piedi</td><td class="ex-series">4×10-12</td></tr>
-          <tr><td>Alzate laterali manubri</td><td class="ex-series">3×12-15</td></tr>
-          <tr><td>Dips tra due sedie</td><td class="ex-series">3×max</td></tr>
-          <tr><td>Estensione tricipiti sopra la testa (1 manubrio)</td><td class="ex-series">3×12</td></tr>
-          <tr><td>Push-up diamante</td><td class="ex-series">2×max</td></tr>
-        </table>
-        <div class="tip-box">🔧 Il giorno più pesante coi manubri – tieni i pesi a casa</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- GIORNO C OUTDOOR GAMBE -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🌳</div>
-      <div class="day-info">
-        <div class="day-name">Giorno C – Outdoor</div>
-        <div class="day-sub">Gambe + Core + Dips</div>
-      </div>
-      <div class="day-arrow">▼</div>
-    </div>
-    <div class="day-body">
-      <div class="meal-block">
-        <div class="meal-label label-workout">💪 Esercizi</div>
-        <table class="ex-table">
-          <tr><th>Esercizio</th><th>Serie</th></tr>
-          <tr><td>Dips alle parallele</td><td class="ex-series">4×max</td></tr>
-          <tr><td>Squat a corpo libero</td><td class="ex-series">4×15-20</td></tr>
-          <tr><td>Bulgarian split squat (piede su panchina)</td><td class="ex-series">3×10/lato</td></tr>
-          <tr><td>Affondi camminati</td><td class="ex-series">3×12/lato</td></tr>
-          <tr><td>Squat con elastico sotto i piedi</td><td class="ex-series">3×15</td></tr>
-          <tr><td>Hollow body hold</td><td class="ex-series">3×20-30s</td></tr>
-          <tr><td>Dead bug (a terra)</td><td class="ex-series">3×8/lato</td></tr>
-          <tr><td>Plank laterale</td><td class="ex-series">2×20-30s/lato</td></tr>
-        </table>
-        <div class="tip-box">🎒 Porta con te: elastici</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STRETCHING B -->
-  <div class="day">
-    <div class="day-header" onclick="toggleDay(this)">
-      <div class="day-emoji">🧘</div>
-      <div class="day-info">
-        <div class="day-name">Stretching Finale</div>
-        <div class="day-sub">10 min · scegli dove sei · 30-40 sec per posizione</div>
-      </div>
-      <div class="day-arrow">▼</div>
-    </div>
-    <div class="day-body">
-      <div class="toggle-row">
-        <button class="toggle-btn active" onclick="switchVariant(this,'sb2-out')">🌳 Outdoor</button>
-        <button class="toggle-btn" onclick="switchVariant(this,'sb2-casa')">🏠 Casa</button>
-      </div>
-      <div class="variant" id="sb2-out">
-        <div class="step-list">
-          <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
-          <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio in piedi – mento verso petto, mani sulla nuca</div></div>
-          <div class="step-item"><div class="step-num">3</div><div>Stiramento pettorali – braccio a 90° contro un palo o muro, ruota il busto</div></div>
-          <div class="step-item"><div class="step-num">4</div><div>Stiramento toracico in piedi – mani intrecciate dietro la testa, apri il petto verso l'alto</div></div>
-          <div class="step-item"><div class="step-num">5</div><div>Rotazione busto in piedi – braccia aperte, 10 rotazioni lente per lato</div></div>
-          <div class="step-item"><div class="step-num">6</div><div>Stiramento ischio-crurali in piedi – piede su panchina o sbarra bassa, busto in avanti</div></div>
-          <div class="step-item"><div class="step-num">7</div><div>Piriforme stretch in piedi – figura 4 appoggiato a un palo, piega il ginocchio di supporto</div></div>
+    <!-- GIORNO C CALISTHENICS -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🌳</div>
+        <div class="day-info">
+          <div class="day-name">Giorno C – Outdoor</div>
+          <div class="day-sub">Gambe + Core</div>
         </div>
+        <div class="day-arrow">▼</div>
       </div>
-      <div class="variant" id="sb2-casa" style="display:none">
-        <div class="step-list">
-          <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
-          <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio – mento verso petto, mani incrociate sulla nuca</div></div>
-          <div class="step-item"><div class="step-num">3</div><div>Child's pose – gambe aperte, braccia tese avanti</div></div>
-          <div class="step-item"><div class="step-num">4</div><div>Cat-Cow finale – 5 rip. lente</div></div>
-          <div class="step-item"><div class="step-num">5</div><div>Stiramento pettorali al muro – braccio a 90°, ruota il busto</div></div>
-          <div class="step-item"><div class="step-num">6</div><div>Stiramento toracico – mani dietro la testa, apri il petto</div></div>
-          <div class="step-item"><div class="step-num">7</div><div>Rotazione toracica – seduto a gambe incrociate, ruota il busto con braccia aperte</div></div>
-          <div class="step-item"><div class="step-num">8</div><div>Stiramento ischio-crurali – seduto gambe tese, mani verso i piedi</div></div>
-          <div class="step-item"><div class="step-num">9</div><div>Piriforme stretch – sdraiato, caviglia sul ginocchio opposto, porta le gambe al petto</div></div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-workout">💪 Esercizi</div>
+          <table class="ex-table">
+            <tr><th>Esercizio</th><th>Serie x Rip.</th></tr>
+            <tr><td>Squat a corpo libero</td><td class="ex-series">4×15-20</td></tr>
+            <tr><td>Bulgarian split squat (piede su panchina)</td><td class="ex-series">3×10/lato</td></tr>
+            <tr><td>Affondi camminati</td><td class="ex-series">3×12/lato</td></tr>
+            <tr><td>Squat con elastico sotto i piedi</td><td class="ex-series">3×15</td></tr>
+            <tr><td>Hollow body hold</td><td class="ex-series">3×20-30s</td></tr>
+            <tr><td>Dead bug</td><td class="ex-series">3×8/lato</td></tr>
+            <tr><td>Plank</td><td class="ex-series">3×30-45s</td></tr>
+            <tr><td>Plank laterale</td><td class="ex-series">2×20-30s/lato</td></tr>
+          </table>
+          <div class="tip-box">🎒 Porta con te: elastici · panchina outdoor</div>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- STRETCHING CALISTHENICS -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🧘</div>
+        <div class="day-info">
+          <div class="day-name">Stretching Finale</div>
+          <div class="day-sub">10 min · outdoor · in piedi · 30-40 sec per posizione</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-stretch">🧘 Stretching Outdoor</div>
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio in piedi – mento verso petto, mani sulla nuca</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Stiramento pettorali – braccio a 90° contro un palo, ruota il busto</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Stiramento toracico in piedi – mani intrecciate dietro la testa, apri il petto</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Rotazione busto in piedi – braccia aperte, 10 rotazioni lente per lato</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Stiramento ischio-crurali in piedi – piede su panchina o sbarra bassa, busto in avanti</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Piriforme stretch in piedi – figura 4 appoggiato a un palo</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /plan-calisthenics -->
+
+  <!-- ===== PIANO A ===== -->
+  <div id="plan-piano-a" style="display:none">
+
+    <div class="info-card">
+      <table class="schema-table">
+        <tr><th>Giorno</th><th>Dove</th><th>Focus</th></tr>
+        <tr><td><b>Giorno A</b><br><small>es. Lunedì</small></td><td><span class="badge-home">🏠 Casa</span></td><td>Spinta – petto, spalle, tricipiti</td></tr>
+        <tr><td><b>Giorno B</b><br><small>es. Mercoledì</small></td><td><span class="badge-out">🌳 Outdoor</span></td><td>Trazione + Gambe</td></tr>
+        <tr><td><b>Giorno C</b><br><small>es. Venerdì</small></td><td><span class="badge-home">🏠 Casa</span></td><td>Full body elastici + core</td></tr>
+      </table>
+    </div>
+
+    <!-- RISCALDAMENTO PIANO A -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🔥</div>
+        <div class="day-info">
+          <div class="day-name">Riscaldamento</div>
+          <div class="day-sub">10 min · scegli dove sei</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="toggle-row">
+          <button class="toggle-btn active" onclick="switchVariant(this,'wa1-casa')">🏠 Casa</button>
+          <button class="toggle-btn" onclick="switchVariant(this,'wa1-out')">🌳 Outdoor</button>
+        </div>
+        <div class="variant" id="wa1-casa">
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Cat-Cow (a 4 zampe) – 10 rip. lente, col respiro</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Thoracic rotation (a 4 zampe, mano dietro la testa) – 8 per lato</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Hip circles in piedi – 10 per lato</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+          </div>
+        </div>
+        <div class="variant" id="wa1-out" style="display:none">
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Rotazioni busto in piedi con braccia aperte – 10 per lato</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Hip circles in piedi – 10 per lato</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Affondi sul posto con torsione del busto – 5 per lato</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIORNO A PIANO A -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🏠</div>
+        <div class="day-info">
+          <div class="day-name">Giorno A – Casa</div>
+          <div class="day-sub">Spinta · Petto, Spalle, Tricipiti</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-workout">💪 Esercizi</div>
+          <table class="ex-table">
+            <tr><th>Esercizio</th><th>Serie</th></tr>
+            <tr><td>Push-up con manubri (presa neutra, ROM ampio)</td><td class="ex-series">4×8-12</td></tr>
+            <tr><td>Floor press manubri (su pavimento)</td><td class="ex-series">4×8-10</td></tr>
+            <tr><td>Shoulder press manubri in piedi</td><td class="ex-series">3×10-12</td></tr>
+            <tr><td>Alzate laterali manubri</td><td class="ex-series">3×12-15</td></tr>
+            <tr><td>Dips tra due sedie</td><td class="ex-series">3×max</td></tr>
+            <tr><td>Estensione tricipiti sopra la testa (1 manubrio)</td><td class="ex-series">3×12</td></tr>
+            <tr><td>Push-up diamante</td><td class="ex-series">2×max</td></tr>
+          </table>
+          <div class="tip-box">🔧 Riposo 60-90 sec tra serie isolate, 2-3 min tra compound</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIORNO B PIANO A -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🌳</div>
+        <div class="day-info">
+          <div class="day-name">Giorno B – Outdoor</div>
+          <div class="day-sub">Trazione + Gambe · Schiena, Bicipiti, Gambe</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-workout">💪 Esercizi</div>
+          <table class="ex-table">
+            <tr><th>Esercizio</th><th>Serie</th></tr>
+            <tr><td>Pull-up presa larga</td><td class="ex-series">4×max</td></tr>
+            <tr><td>Chin-up presa supina stretta</td><td class="ex-series">3×max</td></tr>
+            <tr><td>Australian pull-up (sbarra bassa)</td><td class="ex-series">3×10-15</td></tr>
+            <tr><td>Dips alle parallele</td><td class="ex-series">4×max</td></tr>
+            <tr><td>Squat a corpo libero</td><td class="ex-series">3×15-20</td></tr>
+            <tr><td>Bulgarian split squat (piede su panchina)</td><td class="ex-series">3×10/lato</td></tr>
+            <tr><td>Affondi camminati</td><td class="ex-series">2×12/lato</td></tr>
+            <tr><td>Hollow body hold</td><td class="ex-series">3×20-30s</td></tr>
+          </table>
+          <div class="tip-box">💡 Se i pull-up sono pochi, usa un elastico come assistenza sotto il ginocchio</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIORNO C PIANO A -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🏠</div>
+        <div class="day-info">
+          <div class="day-name">Giorno C – Casa</div>
+          <div class="day-sub">Full body elastici + Core</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-workout">💪 Esercizi</div>
+          <table class="ex-table">
+            <tr><th>Esercizio</th><th>Serie</th></tr>
+            <tr><td>Pull-up (sbarra porta)</td><td class="ex-series">4×max</td></tr>
+            <tr><td>Rematore con elastico (ancorato alla porta)</td><td class="ex-series">3×12-15</td></tr>
+            <tr><td>Curl bicipiti con elastico</td><td class="ex-series">3×12-15</td></tr>
+            <tr><td>Press orizzontale con elastico</td><td class="ex-series">3×12-15</td></tr>
+            <tr><td>Face pull con elastico</td><td class="ex-series">3×15</td></tr>
+            <tr><td>Squat con elastico sotto i piedi</td><td class="ex-series">3×15</td></tr>
+            <tr><td>Plank</td><td class="ex-series">3×30-45s</td></tr>
+            <tr><td>Dead bug</td><td class="ex-series">3×8/lato</td></tr>
+            <tr><td>Sollevamento gambe da sdraiato</td><td class="ex-series">3×12</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRETCHING PIANO A -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🧘</div>
+        <div class="day-info">
+          <div class="day-name">Stretching Finale</div>
+          <div class="day-sub">10 min · scegli dove sei · 30-40 sec per posizione</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="toggle-row">
+          <button class="toggle-btn active" onclick="switchVariant(this,'sa1-casa')">🏠 Casa</button>
+          <button class="toggle-btn" onclick="switchVariant(this,'sa1-out')">🌳 Outdoor</button>
+        </div>
+        <div class="variant" id="sa1-casa">
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla, lieve pressione con la mano</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio – mento verso petto, mani incrociate sulla nuca</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Child's pose – gambe aperte, braccia tese avanti</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Cat-Cow finale – 5 rip. lente</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Stiramento pettorali – braccio a 90° contro il muro, ruota il busto</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Stiramento toracico – mani intrecciate dietro la testa, apri il petto</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Rotazione toracica – seduto a gambe incrociate, ruota il busto con braccia aperte</div></div>
+            <div class="step-item"><div class="step-num">8</div><div>Stiramento ischio-crurali – seduto gambe tese, mani verso i piedi</div></div>
+            <div class="step-item"><div class="step-num">9</div><div>Piriforme stretch – sdraiato, caviglia sul ginocchio opposto, porta le gambe al petto</div></div>
+          </div>
+        </div>
+        <div class="variant" id="sa1-out" style="display:none">
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio in piedi – mento verso petto, mani sulla nuca</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Stiramento pettorali – braccio a 90° contro un palo o muro, ruota il busto</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Stiramento toracico in piedi – mani intrecciate dietro la testa, apri il petto verso l'alto</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Rotazione busto in piedi – braccia aperte, 10 rotazioni lente per lato</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Stiramento ischio-crurali in piedi – piede su panchina o sbarra bassa, busto in avanti</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Piriforme stretch in piedi – figura 4 appoggiato a un palo, piega il ginocchio di supporto</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /plan-piano-a -->
+
+  <!-- ===== PIANO B ===== -->
+  <div id="plan-piano-b" style="display:none">
+
+    <div class="info-card">
+      <table class="schema-table">
+        <tr><th>Giorno</th><th>Dove</th><th>Focus</th></tr>
+        <tr><td><b>Giorno A</b><br><small>es. Lunedì</small></td><td><span class="badge-out">🌳 Outdoor</span></td><td>Trazione – Schiena, Bicipiti</td></tr>
+        <tr><td><b>Giorno B</b><br><small>es. Mercoledì</small></td><td><span class="badge-home">🏠 Casa</span></td><td>Spinta – Petto, Spalle, Tricipiti</td></tr>
+        <tr><td><b>Giorno C</b><br><small>es. Venerdì</small></td><td><span class="badge-out">🌳 Outdoor</span></td><td>Gambe + Core + Dips</td></tr>
+      </table>
+    </div>
+
+    <!-- RISCALDAMENTO PIANO B -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🔥</div>
+        <div class="day-info">
+          <div class="day-name">Riscaldamento</div>
+          <div class="day-sub">10 min · scegli dove sei</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="toggle-row">
+          <button class="toggle-btn active" onclick="switchVariant(this,'wb2-out')">🌳 Outdoor</button>
+          <button class="toggle-btn" onclick="switchVariant(this,'wb2-casa')">🏠 Casa</button>
+        </div>
+        <div class="variant" id="wb2-out">
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Rotazioni busto in piedi con braccia aperte – 10 per lato</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Hip circles in piedi – 10 per lato</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Affondi sul posto con torsione del busto – 5 per lato</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+          </div>
+        </div>
+        <div class="variant" id="wb2-casa" style="display:none">
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Rotazioni cervicali – 10 giri lenti per lato</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Shoulder rolls – 10 avanti + 10 indietro</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Cat-Cow (a 4 zampe) – 10 rip. lente, col respiro</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Thoracic rotation (a 4 zampe, mano dietro la testa) – 8 per lato</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Aperture petto in piedi con braccia aperte – 10 rip.</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Hip circles in piedi – 10 per lato</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Jumping jacks o marcia sul posto – 2 minuti</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIORNO A PIANO B -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🌳</div>
+        <div class="day-info">
+          <div class="day-name">Giorno A – Outdoor</div>
+          <div class="day-sub">Trazione · Schiena, Bicipiti</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-workout">💪 Esercizi</div>
+          <table class="ex-table">
+            <tr><th>Esercizio</th><th>Serie</th></tr>
+            <tr><td>Pull-up presa larga</td><td class="ex-series">4×max</td></tr>
+            <tr><td>Chin-up presa supina stretta</td><td class="ex-series">3×max</td></tr>
+            <tr><td>Australian pull-up (sbarra bassa)</td><td class="ex-series">3×10-15</td></tr>
+            <tr><td>Rematore con elastico (ancorato)</td><td class="ex-series">3×12-15</td></tr>
+            <tr><td>Face pull con elastico</td><td class="ex-series">3×15</td></tr>
+            <tr><td>Curl bicipiti con elastico</td><td class="ex-series">3×12-15</td></tr>
+          </table>
+          <div class="tip-box">🎒 Porta con te: elastici</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIORNO B PIANO B -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🏠</div>
+        <div class="day-info">
+          <div class="day-name">Giorno B – Casa</div>
+          <div class="day-sub">Spinta · Petto, Spalle, Tricipiti</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-workout">💪 Esercizi</div>
+          <table class="ex-table">
+            <tr><th>Esercizio</th><th>Serie</th></tr>
+            <tr><td>Floor press manubri</td><td class="ex-series">4×8-10</td></tr>
+            <tr><td>Push-up con manubri (presa neutra)</td><td class="ex-series">3×10-12</td></tr>
+            <tr><td>Shoulder press manubri in piedi</td><td class="ex-series">4×10-12</td></tr>
+            <tr><td>Alzate laterali manubri</td><td class="ex-series">3×12-15</td></tr>
+            <tr><td>Dips tra due sedie</td><td class="ex-series">3×max</td></tr>
+            <tr><td>Estensione tricipiti sopra la testa (1 manubrio)</td><td class="ex-series">3×12</td></tr>
+            <tr><td>Push-up diamante</td><td class="ex-series">2×max</td></tr>
+          </table>
+          <div class="tip-box">🔧 Il giorno più pesante coi manubri – tieni i pesi a casa</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIORNO C PIANO B -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🌳</div>
+        <div class="day-info">
+          <div class="day-name">Giorno C – Outdoor</div>
+          <div class="day-sub">Gambe + Core + Dips</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="meal-block">
+          <div class="meal-label label-workout">💪 Esercizi</div>
+          <table class="ex-table">
+            <tr><th>Esercizio</th><th>Serie</th></tr>
+            <tr><td>Dips alle parallele</td><td class="ex-series">4×max</td></tr>
+            <tr><td>Squat a corpo libero</td><td class="ex-series">4×15-20</td></tr>
+            <tr><td>Bulgarian split squat (piede su panchina)</td><td class="ex-series">3×10/lato</td></tr>
+            <tr><td>Affondi camminati</td><td class="ex-series">3×12/lato</td></tr>
+            <tr><td>Squat con elastico sotto i piedi</td><td class="ex-series">3×15</td></tr>
+            <tr><td>Hollow body hold</td><td class="ex-series">3×20-30s</td></tr>
+            <tr><td>Dead bug (a terra)</td><td class="ex-series">3×8/lato</td></tr>
+            <tr><td>Plank laterale</td><td class="ex-series">2×20-30s/lato</td></tr>
+          </table>
+          <div class="tip-box">🎒 Porta con te: elastici</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRETCHING PIANO B -->
+    <div class="day">
+      <div class="day-header" onclick="toggleDay(this)">
+        <div class="day-emoji">🧘</div>
+        <div class="day-info">
+          <div class="day-name">Stretching Finale</div>
+          <div class="day-sub">10 min · scegli dove sei · 30-40 sec per posizione</div>
+        </div>
+        <div class="day-arrow">▼</div>
+      </div>
+      <div class="day-body">
+        <div class="toggle-row">
+          <button class="toggle-btn active" onclick="switchVariant(this,'sb2-out')">🌳 Outdoor</button>
+          <button class="toggle-btn" onclick="switchVariant(this,'sb2-casa')">🏠 Casa</button>
+        </div>
+        <div class="variant" id="sb2-out">
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio in piedi – mento verso petto, mani sulla nuca</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Stiramento pettorali – braccio a 90° contro un palo o muro, ruota il busto</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Stiramento toracico in piedi – mani intrecciate dietro la testa, apri il petto verso l'alto</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Rotazione busto in piedi – braccia aperte, 10 rotazioni lente per lato</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Stiramento ischio-crurali in piedi – piede su panchina o sbarra bassa, busto in avanti</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Piriforme stretch in piedi – figura 4 appoggiato a un palo, piega il ginocchio di supporto</div></div>
+          </div>
+        </div>
+        <div class="variant" id="sb2-casa" style="display:none">
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div>Stiramento laterale del collo – orecchio verso spalla</div></div>
+            <div class="step-item"><div class="step-num">2</div><div>Stiramento trapezio – mento verso petto, mani incrociate sulla nuca</div></div>
+            <div class="step-item"><div class="step-num">3</div><div>Child's pose – gambe aperte, braccia tese avanti</div></div>
+            <div class="step-item"><div class="step-num">4</div><div>Cat-Cow finale – 5 rip. lente</div></div>
+            <div class="step-item"><div class="step-num">5</div><div>Stiramento pettorali al muro – braccio a 90°, ruota il busto</div></div>
+            <div class="step-item"><div class="step-num">6</div><div>Stiramento toracico – mani dietro la testa, apri il petto</div></div>
+            <div class="step-item"><div class="step-num">7</div><div>Rotazione toracica – seduto a gambe incrociate, ruota il busto con braccia aperte</div></div>
+            <div class="step-item"><div class="step-num">8</div><div>Stiramento ischio-crurali – seduto gambe tese, mani verso i piedi</div></div>
+            <div class="step-item"><div class="step-num">9</div><div>Piriforme stretch – sdraiato, caviglia sul ginocchio opposto, porta le gambe al petto</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /plan-piano-b -->
 
 </div>
 
 <!-- ===================== DIETA ===================== -->
-<div class="page" id="p3">
+<div class="page" id="p2">
 
   <div class="section-title">Piano Alimentare Settimanale</div>
+
+  <div class="toggle-bar" style="margin-bottom:16px;">
+    <button class="toggle-btn active" id="btn-inverno" onclick="switchSeason('inverno')">🌨️ Inverno</button>
+    <button class="toggle-btn" id="btn-estate" onclick="switchSeason('estate')">☀️ Estate</button>
+  </div>
 
   <div class="info-card">
     <h3>📊 Obiettivo giornaliero</h3>
@@ -854,6 +1017,7 @@
     </table>
   </div>
 
+  <div id="piano-inverno">
   <!-- LUNEDÌ -->
   <div class="day">
     <div class="day-header" onclick="toggleDay(this)">
@@ -1049,11 +1213,212 @@
       <div class="protein-badge">💪 ~124g proteine</div>
     </div>
   </div>
+  </div><!-- /piano-inverno -->
+
+  <div id="piano-estate" style="display:none;">
+
+  <!-- LUNEDÌ ESTATE -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Lunedì</div>
+        <div class="day-sub">Farro con tonno · Pollo e zucchine</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Insalata di farro (80g cotto) con tonno al naturale (150g), mais, peperoni arrostiti e olio EVO. Puoi prepararlo la sera prima e portarlo al lavoro.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Yogurt greco in vaschetta (150g) + bustina di noci o mandorle</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Petto di pollo alla piastra (180g) con zucchine grigliate e insalata verde. Condisci con limone e olio EVO. Leggero e veloce.</div>
+      </div>
+      <div class="protein-badge">💪 ~127g proteine</div>
+    </div>
+  </div>
+
+  <!-- MARTEDÌ ESTATE -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Martedì</div>
+        <div class="day-sub">Wrap bresaola · Salmone e ceci</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Wrap (1-2 piadine integrali) con bresaola (80g), rucola, parmigiano e un filo d'olio. Nessuna cottura richiesta.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Barretta proteica (20g+ proteine) + 1 banana</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Salmone al limone in padella (180g) + insalata di ceci (150g) con carote grattugiate, olio e limone. Fresco e ricco di omega-3.</div>
+      </div>
+      <div class="protein-badge">💪 ~128g proteine</div>
+    </div>
+  </div>
+
+  <!-- MERCOLEDÌ ESTATE -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Mercoledì</div>
+        <div class="day-sub">Riso freddo al tonno · Frittata leggera</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Riso freddo (80g cotto e raffreddato) con tonno al naturale (150g), mais, piselli e un filo d'olio EVO. Prepara la sera prima.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Fiocchi di latte in vaschetta (150g) + 1 banana</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Frittata di albumi (4 albumi + 1 uovo intero) con zucchine e peperoni in padella. Leggera, proteica, pronta in 10 minuti. + 1 fetta pane integrale.</div>
+      </div>
+      <div class="protein-badge">💪 ~120g proteine</div>
+    </div>
+  </div>
+
+  <!-- GIOVEDÌ ESTATE -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Giovedì</div>
+        <div class="day-sub">Bowl di orzo · Pesce bianco</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Bowl di orzo perlato (80g cotto) con pollo grigliato (120g) a pezzetti, peperoni arrostiti e olio EVO. Fresco, saziante e facile da portare.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Yogurt greco in vaschetta (150g) + 2 quadretti cioccolato fondente 85% + mandorle</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Filetto di pesce bianco/merluzzo (200g) al forno con limone e rosmarino + insalata di spinaci freschi con olio EVO. Leggerissimo.</div>
+      </div>
+      <div class="protein-badge">💪 ~125g proteine</div>
+    </div>
+  </div>
+
+  <!-- VENERDÌ ESTATE -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Venerdì</div>
+        <div class="day-sub">Piadina proteica · Burger tacchino</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Piadina integrale con prosciutto cotto (80g), mozzarella light e rucola. Nessuna cottura, pratica da portare ovunque.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Bresaola in bustina (80g) + crackers integrali + 1 mela</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Burger di tacchino (160g macinato + uovo + erbe) in padella + insalata verde con carote e mais. Leggero ma soddisfacente.</div>
+      </div>
+      <div class="protein-badge">💪 ~129g proteine</div>
+    </div>
+  </div>
+
+  <!-- SABATO ESTATE -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Sabato</div>
+        <div class="day-sub">Bowl estiva · Pizza libera 🍕</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Bowl estiva: riso (80g) freddo + pollo grigliato (120g) + mais + carote grattugiate + olio e limone. Colorata, fresca, nessuna cottura extra se prepari in anticipo.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Fiocchi di latte in vaschetta (150g) + 1 frutto di stagione</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Pizza — topping proteici (prosciutto cotto, mozzarella) + insalata di contorno. Pasto libero, nessuna restrizione.</div>
+      </div>
+      <div class="protein-badge">💪 ~118g proteine</div>
+    </div>
+  </div>
+
+  <!-- DOMENICA ESTATE -->
+  <div class="day">
+    <div class="day-header" onclick="toggleDay(this)">
+      <div class="day-emoji">📅</div>
+      <div class="day-info">
+        <div class="day-name">Domenica</div>
+        <div class="day-sub">Pasta fredda · Grigliata</div>
+      </div>
+      <div class="day-arrow">▼</div>
+    </div>
+    <div class="day-body">
+      <div class="meal-block">
+        <div class="meal-label label-pranzo">🍽️ Pranzo</div>
+        <div class="meal-text">Pasta fredda (80g) con tonno (150g), mais, piselli e olio EVO. Preparala la sera prima e tienila in frigo. Tipico piatto estivo, zero sforzo.</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-spuntino">🕒 Spuntino</div>
+        <div class="meal-text">Yogurt greco in vaschetta (150g) + bustina di frutta secca mista</div>
+        <div class="meal-note">⚡ Zero preparazione</div>
+      </div>
+      <div class="meal-block">
+        <div class="meal-label label-cena">🌙 Cena</div>
+        <div class="meal-text">Grigliata: petto di pollo o bistecca (180g) + zucchine e peperoni alla griglia. Il pasto estivo per eccellenza.</div>
+      </div>
+      <div class="protein-badge">💪 ~124g proteine</div>
+    </div>
+  </div>
+
+  </div><!-- /piano-estate -->
 
 </div>
 
 <!-- ===================== INFO ===================== -->
-<div class="page" id="p4">
+<div class="page" id="p3">
 
   <div class="section-title">Consigli Generali</div>
 
@@ -1129,11 +1494,11 @@
   // Mappa keyword → secondi di recupero
   function getRestTime(name) {
     const n = name.toLowerCase();
-    // Compound pesanti: 3 min
-    if (/pull-up presa larga|squat a corpo|floor press|dips alle parallele|bulgarian/.test(n)) return 180;
-    // Compound medi: 2 min
-    if (/chin-up|australian|shoulder press|push-up con manubri|rematore|affondi|squat con elastico|press orizzontale|burger/.test(n)) return 120;
-    // Tutto il resto (isolamento): 60s
+    // Esercizi di apertura (forza): 2 min 30
+    if (/pull-up presa larga|floor press|dips alle parallele|squat a corpo|push-up con manubri|bulgarian/.test(n)) return 150;
+    // Compound medi: 90s
+    if (/chin-up|australian|shoulder press|rematore|affondi|squat con elastico|press orizzontale|dips tra due|push-up (stretti|diamante)|pike push-up|push-up classico|push-up con piedi|chest press/.test(n)) return 90;
+    // Isolamento e core: 60s
     return 60;
   }
 
@@ -1240,10 +1605,17 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 
-    const idx = ['p1','p2','p3','p4'].indexOf(id);
+    const idx = ['p1','p2','p3'].indexOf(id);
     document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i === idx));
 
     window.scrollTo(0, 0);
+  }
+
+  function switchPlan(plan) {
+    ['calisthenics','piano-a','piano-b'].forEach(p => {
+      document.getElementById('plan-' + p).style.display = p === plan ? 'block' : 'none';
+      document.getElementById('btn-' + p).classList.toggle('active', p === plan);
+    });
   }
 
   function toggleDay(header) {
@@ -1341,6 +1713,13 @@
     const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
     document.getElementById('manifest-link').href = URL.createObjectURL(blob);
   })();
+
+  function switchSeason(season) {
+    document.getElementById('piano-inverno').style.display = season === 'inverno' ? 'block' : 'none';
+    document.getElementById('piano-estate').style.display = season === 'estate' ? 'block' : 'none';
+    document.getElementById('btn-inverno').classList.toggle('active', season === 'inverno');
+    document.getElementById('btn-estate').classList.toggle('active', season === 'estate');
+  }
 
   function switchVariant(btn, id) {
     const body = btn.closest('.day-body');
